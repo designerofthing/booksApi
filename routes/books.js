@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res) => {
-  res.json({books: [{title: 'Fightclub'}]});
+  let booksCollection = [{title: 'Fight Club'}, {title: 'Million Little Pieces'}];
+  res.json({books: booksCollection});
 });
 
 module.exports = router;
