@@ -6,6 +6,7 @@ const {
 } = require("sequelize-test-helpers");
 
 const Book = require("../../models/book");
+const { factory, expect } = require("../test_helper");
 
 describe("Book", () => {
   const DescribedModel = Book(sequelize, dataTypes);
@@ -13,4 +14,21 @@ describe("Book", () => {
 
   checkModelName(DescribedModel)("Book");
   checkPropertyExists(subject)("title");
+
+  describe("constraints", () => {
+    it("rejects null value for title", async () => {
+      try {
+        await factory.create("Book", {
+          title: null,
+        });
+        expect.fail();
+      } catch (error) {
+        expect(error.errors).to.containSubset([
+          { message: "Book.title cannot be null" },
+        ]);
+      }
+    });
+  });
+
+  describe("validation", () => {});
 });
