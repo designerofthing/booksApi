@@ -1,10 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const booksController = require("../controllers/booksController");
 
-/* GET users listing. */
-router.get('/', (req, res) => {
-  let booksCollection = [{title: 'Fight Club'}, {title: 'Million Little Pieces'}];
-  res.json({books: booksCollection});
-});
+router.get("/", booksController.index);
 
 module.exports = router;
