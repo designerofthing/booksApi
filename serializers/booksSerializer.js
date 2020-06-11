@@ -1,15 +1,17 @@
-const { Models } = require("../tests/test_helper");
+// const { Models } = require("../tests/test_helper");
+const models = require("../models");
 
 const booksSerializer = {
   index() {
     return {
-      attributes: ["id", "title"],
       include: [
-        {model: models.Author, 
-        as: 'author',
-      attributes: { exclude: [ 'id', 'createdAt', 'updatedAt' ]}
-      }
-      ]
+        {
+          model: models.Author,
+          as: "author",
+          attributes: { exclude: ["id", "createdAt", "updatedAt"] },
+        },
+      ],
+      attributes: ["id", "title"],
     };
   },
 };
