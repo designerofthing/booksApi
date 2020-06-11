@@ -6,7 +6,9 @@ const {
 } = require("sequelize-test-helpers");
 
 const Book = require("../../models/book");
+const Author = require("../../models/author");
 const { factory, expect } = require("../test_helper");
+const { before } = require("mocha");
 
 describe("Book", () => {
   const DescribedModel = Book(sequelize, dataTypes);
@@ -14,6 +16,7 @@ describe("Book", () => {
 
   checkModelName(DescribedModel)("Book");
   checkPropertyExists(subject)("title");
+
 
   describe("constraints", () => {
     it("rejects null value for title", async () => {
@@ -42,6 +45,16 @@ describe("Book", () => {
           message: "Validation error: You need to set a title!",
         });
       }
+    });
+  });
+
+  describe("associations", () => {
+    before(() => {
+      DescribedModel.associate({ Author });
+    });
+
+    it("defines a belongsTo association with Author", () => {
+      expect(DescribedModel.belongsTo).to.have.been.calledWith(Author);
     });
   });
 });
