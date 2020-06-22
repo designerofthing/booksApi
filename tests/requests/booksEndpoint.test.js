@@ -31,11 +31,11 @@ afterEach(async () => {
 });
 
 describe("GET /api/v1/books", () => {
-  beforeEach(async () => {
-    response = await request.get("/api/v1/books");
-  });
-
+  
   describe("for a non authenticated user", () => {
+    beforeEach(async () => {
+      response = await request.get("/api/v1/books");
+    });
     it("responds with status 401", () => {
       expect(response.status).to.equal(401);
     });
@@ -47,8 +47,11 @@ describe("GET /api/v1/books", () => {
         .post("/api/v1/auth/login")
         .send({ email: "user@mail.com", password: "password" })
         .then((response) => {
-          token = response.body.token;
-        });
+          token = response.body.token; //save token for future use in test.
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       response = await request.get("/api/v1/books").set("Authorisation", token);
     });
     it("responds with status 200", () => {
